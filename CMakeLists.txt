@@ -3,11 +3,13 @@ cmake_minimum_required(VERSION 3.26)
 # Todo
 # - allow shared or static library
 # - add install stuff
+# - documentation/diagrams
 
 # Components
 # - abstract away virtual memory functions/basic sys-calls (WinAPI for Windows, /proc/map for nix, march for macos)
 # - abstract away assembly/disassembly using CRTP
 # - abstract away hooking methods (inline/trampoline, vfunc replacement, vtable replacement)
+# - deal with RTTI for VTable replacement
 
 project(yah)
 
