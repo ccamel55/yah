@@ -1,6 +1,6 @@
 #pragma once
 
-#include <macro.hpp>
+#include <util/macro.hpp>
 #include YAH_INCLUDE(system, YAH_PLATFORM)
 
 namespace yah {

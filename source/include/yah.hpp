@@ -1,6 +1,6 @@
 #pragma once
 
-#include <system/system.hpp>
+#include <hook/hook_vtable.hpp>
 
 namespace yah {
 
