@@ -3,7 +3,7 @@
 
 #include <cassert>
 
-using namespace yah::hook;
+using namespace yah;
 
 namespace {
 constexpr size_t get_vtable_size(const uintptr_t* vtable) {
@@ -47,7 +47,7 @@ hook_vtable::hook_vtable(uintptr_t* vtable) {
     );
 
     // Replace vtable pointer with address of replacement vtable
-    *reinterpret_cast<uintptr_t**>(_vtable_address) = &_vtable_replacement[1];
+    *reinterpret_cast<uintptr_t**>(_vtable_address) = &_vtable_replacement[YAH_VTABLE_RTTI];
 
     // Restore virtual memory protection
     [[maybe_unused]] const auto _result_2 = system::vm_protect(
@@ -78,20 +78,20 @@ hook_vtable::~hook_vtable() {
     );
 }
 
-void* hook_vtable::replace_function(const size_t function_index, const void* new_function) {
+std::expected<uintptr_t, std::string_view> hook_vtable::replace_function(const size_t function_index, void* new_function) {
     if (function_index >= _vtable_size || !new_function) {
-        return nullptr;
+        return std::unexpected("function index out of range");
     }
     _vtable_replacement[function_index + YAH_VTABLE_RTTI] = reinterpret_cast<uintptr_t>(new_function);
-    return reinterpret_cast<void*>(_vtable_pointer[function_index]);
+    return _vtable_pointer[function_index];
 }
 
-bool hook_vtable::restore_function(const size_t function_index) {
+std::expected<void, std::string_view> hook_vtable::restore_function(const size_t function_index) {
     if (function_index >= _vtable_size || !is_hooked(function_index)) {
-        return false;
+        return std::unexpected("function index out of range");
     }
     _vtable_replacement[function_index + YAH_VTABLE_RTTI] = _vtable_pointer[function_index];
-    return true;
+    return {};
 }
 
 bool hook_vtable::is_hooked(const size_t function_index) const {
@@ -105,9 +105,9 @@ bool hook_vtable::is_hooked(const size_t function_index) const {
     return replacement_table_pointer != original_table_pointer;
 }
 
-void* hook_vtable::original_function(const size_t function_index) const {
+std::expected<uintptr_t, std::string_view> hook_vtable::original_function(const size_t function_index) const {
     if (function_index >= _vtable_size) {
-        return nullptr;
+        return std::unexpected("function index out of range");
     }
-    return reinterpret_cast<void*>(_vtable_pointer[function_index]);
+    return _vtable_pointer[function_index];
 }

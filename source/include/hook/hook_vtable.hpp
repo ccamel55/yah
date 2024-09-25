@@ -1,8 +1,9 @@
 #pragma once
 
+#include <expected>
 #include <memory>
 
-namespace yah::hook {
+namespace yah {
 class hook_vtable {
 public:
     explicit hook_vtable(uintptr_t* vtable);
@@ -18,13 +19,13 @@ public:
     //! Replace a function located in the vtable
     //! \param function_index index of function in vtable we want to replace
     //! \param new_function address of function to replace in vtable
-    //! \return pointer to original function, nullptr if we could not hook.
-    [[nodiscard]] void* replace_function(size_t function_index, const void* new_function);
+    //! \return std::expected containing original function pointer or error string
+    [[nodiscard]] std::expected<uintptr_t, std::string_view> replace_function(size_t function_index, void* new_function);
 
     //! Restore a hooked function in the vtable
     //! \param function_index index of function in vtable we want to restore
-    //! \return true if function was restored, false if function could not be restored.
-    bool restore_function(size_t function_index);
+    //! \return std::expected containing error string if failed
+    [[nodiscard]] std::expected<void, std::string_view> restore_function(size_t function_index);
 
     //! Check if a function has been hooked/replace since we created the hook class.
     //! \param function_index index of function in vtable we want to check.
@@ -33,8 +34,8 @@ public:
 
     //! Get pointer to original function
     //! \param function_index index of function we want original pointer for.
-    //! \return pointer to original function, nullptr if something went wrong.
-    [[nodiscard]] void* original_function(size_t function_index) const;
+    //! \return std::expected containing original function or error string
+    [[nodiscard]] std::expected<uintptr_t, std::string_view> original_function(size_t function_index) const;
 
 private:
     uintptr_t* _vtable_address = nullptr;
