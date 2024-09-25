@@ -48,8 +48,8 @@ function at index `i`.
 
 |         | x86 | x86_64 (amd64) | Arm64 (aarch64) |
 |---------|-----|----------------|-----------------|
-| Windows | ❌   | ❌              | ❌               |
-| Linux   | ❌   | ❌              | ❌               |
+| Windows | ✅   | ✅              | ✅ (untested)    |
+| Linux   | ✅   | ✅              | ✅               |
 | MacOS   | ❌   | ❌              | ❌               |
 
 #### Description
