@@ -31,7 +31,7 @@ std::expected<uintptr_t, std::string_view> hook_vfunc::replace_function(void* ne
         _vfunc_original_address = _vtable_pointer[_vfunc_index];
     }
 
-    const size_t page_size = getpagesize();
+    const size_t page_size = system::vm_page_size();
 
     // Change virtual memory protection since we are going to replace this in a bit
     [[maybe_unused]] const auto _result_1 = system::vm_protect(
@@ -55,7 +55,7 @@ std::expected<void, std::string_view> hook_vfunc::restore_function() const {
         return std::unexpected("function has not been hooked");
     }
 
-    const size_t page_size = getpagesize();
+    const size_t page_size = system::vm_page_size();
 
     // Change virtual memory protection since we are going to replace this in a bit
     [[maybe_unused]] const auto _result_1 = system::vm_protect(

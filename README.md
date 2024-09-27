@@ -27,8 +27,8 @@ This library currently supports the interception methods listed in this section.
 
 |         | x86 | x86_64 (amd64) | Arm64 (aarch64) |
 |---------|-----|----------------|-----------------|
-| Windows | ❌   | ❌              | ❌               |
-| Linux   | ❌   | ❌              | ❌               |
+| Windows | ✅   | ✅              | ✅ (untested)    |
+| Linux   | ✅   | ✅              | ✅               |
 | MacOS   | ❌   | ❌              | ❌               |
 
 #### Description
