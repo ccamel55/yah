@@ -38,7 +38,7 @@ hook_vtable::hook_vtable(uintptr_t* vtable) {
     // Copy original/existing vtable into our new replacement table - adjust first depending on RTTI
     std::copy(_vtable_pointer - YAH_VTABLE_RTTI, _vtable_pointer + _vtable_size, _vtable_replacement.get());
 
-    const size_t page_size = getpagesize();
+    const size_t page_size = system::vm_page_size();
 
     // Change virtual memory protection since we are going to replace this in a bit
     [[maybe_unused]] const auto _result_1 = system::vm_protect(
@@ -60,7 +60,7 @@ hook_vtable::~hook_vtable() {
     assert(_vtable_address != nullptr);
     assert(_vtable_pointer != nullptr);
 
-    const size_t page_size = getpagesize();
+    const size_t page_size = system::vm_page_size();
 
     // Change virtual memory protection since we are going to replace this in a bit
     [[maybe_unused]] const auto _result_1 = system::vm_protect(

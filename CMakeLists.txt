@@ -21,8 +21,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # todo: let auto resolve do this
 
-set(YAH_PLATFORM linux)
-set(YAH_ARCH arm64)
+set(YAH_PLATFORM win32)
+set(YAH_ARCH x86_64)
 
 # Add `cmake` folder to module paths
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")

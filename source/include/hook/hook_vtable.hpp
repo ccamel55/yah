@@ -2,6 +2,7 @@
 
 #include <expected>
 #include <memory>
+#include <string_view>
 
 namespace yah {
 class hook_vtable {
